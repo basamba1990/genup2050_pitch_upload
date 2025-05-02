@@ -1,4 +1,6 @@
 streamlit
-openai-whisper
+openai>=1.0.0
+supabase
+python-dotenv
+requests
 ffmpeg-python
-# autres dépendances Python nécessaires
