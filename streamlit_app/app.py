@@ -1,11 +1,13 @@
 import streamlit as st
 import tempfile
-from supabase_client import supabase
+from supabase_client import supabase, BUCKET_NAME  # Importer BUCKET_NAME défini
 from whisper_utils import transcribe_audio
 
+# Configuration de la page
 st.set_page_config(page_title="Pitch Uploader - GENUP2050", layout="centered")
 st.title("Pitch Uploader - GENUP2050")
 
+# Upload de la vidéo
 video_file = st.file_uploader("Téléverse ta vidéo de pitch", type=["mp4", "mov", "m4a", "wav", "mp3"])
 
 if video_file is not None:
@@ -16,15 +18,22 @@ if video_file is not None:
     st.success("Vidéo reçue. Transcription en cours...")
 
     try:
+        # Étape 1 : Transcription
         transcription = transcribe_audio(temp_file_path)
         st.text_area("Transcription :", transcription, height=200)
 
-        bucket_name = "videos"
+        # Étape 2 : Upload dans Supabase Storage (bucket = genup2050-pitch)
+        # Supprimer un fichier existant avec le même nom (facultatif)
+        try:
+            supabase.storage.from_(BUCKET_NAME).remove([video_file.name])
+        except Exception:
+            pass  # Ignore s'il n'existait pas
 
-        # Upload de la vidéo
-        supabase.storage.from_(bucket_name).upload(video_file.name, temp_file_path)
-        video_url = supabase.storage.from_(bucket_name).get_public_url(video_file.name)
+        # Upload
+        supabase.storage.from_(BUCKET_NAME).upload(video_file.name, temp_file_path)
+        video_url = supabase.storage.from_(BUCKET_NAME).get_public_url(video_file.name)
 
+        # Étape 3 : Formulaire utilisateur + Enregistrement
         user_name = st.text_input("Ton prénom / pseudo")
         if st.button("Enregistrer le pitch") and user_name:
             data = {
