@@ -13,7 +13,7 @@ except Exception as e:
     bucket_name = "genup2050-pitch"
     st.warning("Secrets non trouvés. Utilisation des valeurs par défaut. Erreur : {}".format(e))
 
-supabase: Client = create_client(SUPABASE_URL, SUPABZSE_KEY)
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def get_rag_context():
     return {"source": "genup2050"}
