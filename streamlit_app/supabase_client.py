@@ -3,9 +3,9 @@ from supabase import create_client, Client
 
 # Chargement sécurisé des secrets ou fallback local
 try:
-    SUPABASE_URL = st.secrets["supabase_url"]
-    SUPABASE_KEY = st.secrets["supabase_key"]
-    BUCKET_NAME = st.secrets.get("bucket_name", "genup2050-pitch")
+    supabase_url = st.secrets["supabase_url"]
+    supabase_key = st.secrets["supabase_key"]
+    bucket_url = st.secrets.get("bucket_name", "genup2050-pitch")
 except Exception as e:
     # Valeurs par défaut pour le développement local (à adapter)
     supabase_url = "https://sjlpeqfchvmuxxmqtkvx.supabase.co"
@@ -13,7 +13,7 @@ except Exception as e:
     bucket_name = "genup2050-pitch"
     st.warning("Secrets non trouvés. Utilisation des valeurs par défaut. Erreur : {}".format(e))
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase: Client = create_client(supabase_url, supabase_key)
 
 def get_rag_context():
     return {"source": "genup2050"}
