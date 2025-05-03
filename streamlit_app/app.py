@@ -1,6 +1,6 @@
 import streamlit as st
 import tempfile
-from supabase_client import supabase, BUCKET_NAME  # Importer BUCKET_NAME défini
+from supabase_client import supabase, bucket_name  # Importer bucket_name défini
 from whisper_utils import transcribe_audio
 
 # Configuration de la page
