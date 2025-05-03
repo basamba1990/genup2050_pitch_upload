@@ -5,7 +5,7 @@ from supabase import create_client, Client
 try:
     supabase_url = st.secrets["supabase_url"]
     supabase_key = st.secrets["supabase_key"]
-    bucket_url = st.secrets.get("bucket_name", "genup2050-pitch")
+    bucket_name = st.secrets.get("bucket_name", "genup2050-pitch")
 except Exception as e:
     # Valeurs par défaut pour le développement local (à adapter)
     supabase_url = "https://sjlpeqfchvmuxxmqtkvx.supabase.co"
